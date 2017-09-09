@@ -7,6 +7,7 @@ cc_binary(
 cc_library(
     name = "queens",
     hdrs = ["queens.h"],
+    srcs = ["queens.cc"],
 )
 
 cc_test(
