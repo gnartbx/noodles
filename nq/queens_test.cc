@@ -52,3 +52,12 @@ TEST(QueensTest, PermuteFour) {
   cout << "====Permute(2, 3)====" << endl << q << endl;
   EXPECT_EQ(0UL, q.num_attacks());
 }
+
+TEST(QueensTest, Copying) {
+  Queens q1 = Queens::Create(4);
+  Queens q2 = q1;
+
+  q1.Permute(0, 2);
+  EXPECT_EQ(2UL, q1.num_attacks());
+  EXPECT_EQ(12UL, q2.num_attacks());
+}
