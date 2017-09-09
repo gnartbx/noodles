@@ -18,6 +18,7 @@ class Queens {
   std::vector<std::pair<size_t, size_t>> OccupiedRowCols() const;
 
   void Swap(size_t row1, size_t row2);
+  void Permute(size_t start_row, size_t end_row);
 
  protected:
   Queens(size_t num_rows);

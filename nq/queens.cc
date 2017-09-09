@@ -1,5 +1,7 @@
 #include "queens.h"
 
+#include <algorithm>
+
 namespace nq {
 
 /* static */
@@ -49,6 +51,21 @@ void Queens::Swap(size_t row1, size_t row2) {
   col_by_row_[row2] = col1;
   occupied_[to_index(row1, col2)] = 1;
   occupied_[to_index(row2, col1)] = 1;
+}
+
+void Queens::Permute(size_t start_row, size_t end_row) {
+  size_t min_row = std::min(start_row, end_row);
+  size_t max_row = std::max(start_row, end_row);
+  size_t first_col = col_by_row_[min_row];
+
+  for (size_t row = min_row; row <= max_row; ++row) {
+    size_t next_col = (row < max_row) ? col_by_row_[row + 1] : first_col;
+    size_t col = col_by_row_[row];
+
+    occupied_[to_index(row, col)] = 0;
+    col_by_row_[row] = next_col;
+    occupied_[to_index(row, next_col)] = 1;
+  }
 }
 
 std::vector<std::pair<size_t, size_t>> Queens::OccupiedRowCols() const {

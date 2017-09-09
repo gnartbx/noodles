@@ -40,3 +40,15 @@ TEST(QueensTest, Four) {
   cout << "====Swap(2,3)====" << endl << q << endl;
   EXPECT_EQ(0UL, q.num_attacks());
 }
+
+TEST(QueensTest, PermuteFour) {
+  Queens q = Queens::Create(4);
+
+  q.Permute(0, 2);
+  cout << "====Permute(0,2)====" << endl << q << endl;
+  EXPECT_EQ(2UL, q.num_attacks());
+
+  q.Swap(1, 3);
+  cout << "====Permute(2, 3)====" << endl << q << endl;
+  EXPECT_EQ(0UL, q.num_attacks());
+}
