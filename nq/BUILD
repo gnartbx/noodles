@@ -1,7 +1,10 @@
 cc_binary(
     name = "nq",
     srcs = ["nq.cc"],
-    deps = [":queens"],
+    deps = [
+        "//external:gflags",
+	":queens"
+    ],
 )
 
 cc_library(
