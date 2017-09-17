@@ -6,9 +6,13 @@
 #include <utility>
 #include <vector>
 
-namespace nq {
+#include <stdlib.h>
 
+namespace nq {
+  
 class Queens {
+  static constexpr size_t BITSET_SIZE = 64;
+  using Board = std::vector<std::bitset<BITSET_SIZE>>;
 
  public:
   static Queens Create(size_t num_rows);
@@ -20,6 +24,8 @@ class Queens {
   void Swap(size_t row1, size_t row2);
   void Permute(size_t start_row, size_t end_row);
 
+  void Randomize();
+
  protected:
   Queens(size_t num_rows);
 
@@ -27,12 +33,20 @@ class Queens {
   inline size_t to_index(size_t row, size_t col) const {
     return row * num_rows_ + col;
   }
-  void InitializeAttacks();
+  inline void set_occupied(Board& board, size_t row, size_t col, bool occupied = true) {
+    div_t board_div = div(to_index(row, col), BITSET_SIZE);
+    board[board_div.quot][board_div.rem] = occupied;
+  }
+  inline bool get_occupied(Board& board, size_t row, size_t col) {
+    div_t board_div = div(to_index(row, col), BITSET_SIZE);
+    return board[board_div.quot][board_div.rem];
+  }
+  const std::vector<Board>* InitializeAttacks();
 
   size_t num_rows_;
   std::vector<size_t> col_by_row_;
-  std::vector<bool> occupied_;
-  std::vector<std::vector<bool>> attacks_;
+  Board occupied_;
+  const std::vector<Board>* attacks_;
 };
 
 }  // namespace nq
