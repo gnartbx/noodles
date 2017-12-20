@@ -27,7 +27,7 @@ TEST(QueensTest, Three) {
 TEST(QueensTest, Four) {
   Queens q = Queens::Create(4);
   cout << "====(Initial)====" << endl << q << endl;
-  
+
   EXPECT_EQ(12UL, q.num_attacks());
   q.Swap(0, 3);
   cout << "====Swap(0,3)====" << endl << q << endl;

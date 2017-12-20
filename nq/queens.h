@@ -7,7 +7,7 @@
 #include <stdlib.h>
 
 namespace nq {
-  
+
 class Queens {
  public:
   static Queens Create(size_t num_rows);
