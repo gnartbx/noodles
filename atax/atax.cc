@@ -115,6 +115,8 @@ static void solve(const atax::Board &start, const double alpha,
         *found = true;
         std::cout << "Solved at step #" << num_steps << ", temperature " << T
                   << std::endl
+                  << "URL: https://lichess.org/editor/" << b.GetFen()
+                  << std::endl
                   << "Board:" << std::endl
                   << b << std::endl;
       }

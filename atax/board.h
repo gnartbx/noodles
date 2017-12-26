@@ -3,6 +3,7 @@
 
 #include <bitset>
 #include <ostream>
+#include <string>
 #include <tuple>
 #include <vector>
 
@@ -27,6 +28,7 @@ class Board {
   void Permute(size_t start_piece, size_t end_piece);
   std::vector<std::tuple<size_t, size_t, Board::Piece>> OccupiedRowCols() const;
   Piece GetPiece(size_t row, size_t col) const;
+  std::string GetFen() const;
 
   void Randomize();
 

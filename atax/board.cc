@@ -16,6 +16,26 @@ constexpr Board::Piece PIECES[Board::kNumPieces] = {
     Board::Piece::Knight, Board::Piece::Bishop, Board::Piece::Bishop,
     Board::Piece::Queen,  Board::Piece::King,   Board::Piece::Pawn};
 
+static const std::string GetPieceName(const Board::Piece piece) {
+  switch (piece) {
+    case Board::Piece::Rook:
+      return "R";
+    case Board::Piece::Knight:
+      return "N";
+    case Board::Piece::Bishop:
+      return "B";
+    case Board::Piece::Queen:
+      return "Q";
+    case Board::Piece::King:
+      return "K";
+    case Board::Piece::Pawn:
+      return "P";
+    case Board::Piece::None:
+    default:
+      return "";
+  }
+}
+
 Board::Board() {
   for (size_t square_index = 0; square_index < kNumPieces; square_index++) {
     by_piece_[square_index] = square_index;
@@ -239,6 +259,31 @@ Board::Piece Board::GetPiece(size_t row, size_t col) const {
   return by_square_[row * kBoardSize + col];
 }
 
+std::string Board::GetFen() const {
+  std::string result;
+  for (size_t row = kBoardSize; row > 0; row--) {
+    size_t num_empty = 0;
+    for (size_t col = 0; col < kBoardSize; col++) {
+      std::string piece_name = GetPieceName(GetPiece(row - 1, col));
+      if (piece_name == "") {
+        num_empty++;
+      } else {
+        if (num_empty > 0) {
+          result += std::to_string(num_empty);
+          num_empty = 0;
+        }
+        result += piece_name;
+      }
+    }
+    if (num_empty > 0) {
+      result += std::to_string(num_empty);
+      num_empty = 0;
+    }
+    result += "/";
+  }
+  return result;
+}
+
 void Board::Randomize() {
   // Ideas? Generate random squares for each piece, check validity, move
   // them?
@@ -250,28 +295,11 @@ std::ostream &operator<<(std::ostream &os, atax::Board const &b) {
   os << "Board (free: " << b.num_unattacked() << ")" << std::endl;
   for (size_t row = atax::Board::kBoardSize; row > 0; row--) {
     for (size_t col = 0; col < atax::Board::kBoardSize; col++) {
-      switch (b.GetPiece(row - 1, col)) {
-        case atax::Board::Piece::None:
-          os << (((row + col) % 2) ? "." : " ");
-          break;
-        case atax::Board::Piece::King:
-          os << "K";
-          break;
-        case atax::Board::Piece::Queen:
-          os << "Q";
-          break;
-        case atax::Board::Piece::Rook:
-          os << "R";
-          break;
-        case atax::Board::Piece::Bishop:
-          os << "B";
-          break;
-        case atax::Board::Piece::Knight:
-          os << "N";
-          break;
-        case atax::Board::Piece::Pawn:
-          os << "P";
-          break;
+      std::string piece_name = atax::GetPieceName(b.GetPiece(row - 1, col));
+      if (piece_name == "") {
+        os << (((row + col) % 2) ? "." : " ");
+      } else {
+        os << piece_name;
       }
     }
     os << std::endl;
